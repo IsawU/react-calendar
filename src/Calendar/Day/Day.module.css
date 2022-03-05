@@ -1,0 +1,86 @@
+.day {
+  display: flex;
+
+  overflow: hidden;
+
+  box-shadow: 0 0 0 1px grey;
+}
+
+.inactive>.data {
+  opacity: 0.3;
+}
+
+.inactive>.data {
+  background-color: lightgrey;
+}
+
+.weekend>.data {
+  background-color: mistyrose;
+}
+
+.today>.data {
+  background-color: cornsilk;
+}
+
+.header {
+  display: none;
+  z-index: 1;
+
+  padding: 10px;
+  text-align: center;
+
+  font-weight: bold;
+  font-size: 0.8em;
+  writing-mode: sideways-lr;
+  background-color: grey;
+  color: white;
+}
+
+.data {
+  width: 100%;
+
+  overflow: hidden;
+}
+
+.title {
+  padding: 5px;
+
+  font-weight: bold;
+}
+
+.item {
+  margin: 2px 0;
+
+  overflow: hidden;
+  padding: 2px 10px;
+
+  font-size: 0.8em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-color: lightblue;
+}
+
+.empty {
+  visibility: hidden;
+}
+
+.more {
+  font-weight: bold;
+  background: linear-gradient(0, rgba(173,216,230,0) 0%, rgba(173,216,230,1) 100%);
+}
+
+.more, .event {
+  cursor: pointer;
+}
+
+
+
+@media only screen and (max-width: 800px) {
+  .inactive {
+    display: none;
+  }
+
+  .header {
+    display: block;
+  }
+}
