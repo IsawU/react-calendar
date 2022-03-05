@@ -1,0 +1,36 @@
+.calendar {
+  display: grid;
+  margin: 20px;
+
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+
+  border-radius: 10px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  z-index: 1;
+
+  padding: 10px;
+  text-align: center;
+
+  font-weight: bold;
+  font-size: 0.8em;
+  box-shadow: 0 0 0 1px grey;
+  background-color: grey;
+  color: white;
+}
+
+
+
+@media only screen and (max-width: 800px) {
+  .calendar {
+      grid-template-columns: 1fr;
+  }
+
+  .header {
+    display: none;
+  }
+}
