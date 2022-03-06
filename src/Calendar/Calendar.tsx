@@ -14,6 +14,7 @@ export default function Calendar(props: CalendarProps) {
   const firstMonthDay = month.getDay();
   const firstCalenderDay = 2 - (firstMonthDay > 0 ? firstMonthDay : 7);  // Get offset to the first day of the calendar.
 
+  // Create days for the calendar.
   const days: JSX.Element[] = [];
   for (let day = firstCalenderDay; day < firstCalenderDay+42; ++day) {
     const date = new Date(props.month);
@@ -21,11 +22,16 @@ export default function Calendar(props: CalendarProps) {
     days.push(<Day date={date} month={month} today={today}/>);
   }
 
+  // Get short day names for calendar header.
   const dayHeaders: JSX.Element[] = [];
   const dateHeaders = new Date(0);
-  for (let day = 5; day < 12; ++day) {
+  for (let day = 5; day < 12; ++day) {    // TODO: Perhaps use a separate component that does not ever need to be redrawn.
     dateHeaders.setDate(day);
-    dayHeaders.push(<div className={styles.header}>{dateHeaders.toLocaleDateString(navigator.language, { weekday: 'short' })}</div>)
+    dayHeaders.push(
+      <div className={styles.header}>
+        {dateHeaders.toLocaleDateString(navigator.language, { weekday: 'short' })}
+      </div>
+    );
   }
 
   return (
