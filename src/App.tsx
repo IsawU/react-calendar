@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import styles from './App.module.css';
 import Calendar from './Calendar';
-import Modal from './Modal';
+import { getLongMonth } from './utils/date';
 
 export default function App() {
   const [today, setToday] = useState<Date>(new Date());
@@ -30,7 +30,7 @@ export default function App() {
         <div className={styles.controls}>
           <button onClick={monthDown}>&lt;</button>
           <div className={styles.month}>
-            {month.toLocaleDateString(navigator.language, { month: 'long' })}
+            {getLongMonth(month)}
           </div>
           <button onClick={monthUp}>&gt;</button>
           <button onClick={monthToday}>Today</button>

@@ -1,4 +1,5 @@
 import styles from './Day.module.css';
+import { getShortWeekday } from '../../utils/date';
 
 export type DayProps = {
   date: Date;
@@ -37,7 +38,7 @@ export default function Day(props: DayProps) {
 
   return (
     <div className={`${styles.day} ${isWeekend ? styles.weekend : ''} ${isInactive ? styles.inactive : ''} ${isToday ? styles.today : ''}`}>
-      <div className={styles.header}>{props.date.toLocaleDateString(navigator.language, { weekday: 'short' })}</div>
+      <div className={styles.header}>{getShortWeekday(props.date)}</div>
       <div className={styles.data}>
         <div className={styles.title}>{props.date.getDate()}</div>
         {events}
