@@ -1,4 +1,27 @@
 body {
   margin: 0;
+
   font-family: sans-serif;
+}
+
+/* Forms */
+button, input {
+  margin: 4px;
+
+  padding: 12px;
+
+  border-radius: 6px;
+}
+
+button {
+  color: white;
+  font-weight: bold;
+  background-color: grey;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+button:hover {
+  background-color: lightgrey;
 }
