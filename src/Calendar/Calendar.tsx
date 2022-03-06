@@ -4,7 +4,7 @@ import Day from './Day';
 export type CalendarProps = {
   month: Date;
   today?: Date;
-}
+};
 
 export default function Calendar(props: CalendarProps) {
   const month: Date = new Date(props.month);
@@ -39,5 +39,5 @@ export default function Calendar(props: CalendarProps) {
       {dayHeaders}
       {days}
     </div>
-  )
+  );
 }
