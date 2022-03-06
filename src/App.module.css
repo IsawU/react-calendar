@@ -2,3 +2,15 @@
   max-width: 1280px;
   margin: 0 auto;
 }
+
+.controls {
+  margin: 8px;
+}
+
+.month {
+  width: 100px;
+  display: inline-block;
+
+  font-weight: bold;
+  text-align: center;
+}
