@@ -1,19 +1,19 @@
 .calendar {
   display: grid;
-  margin: 20px;
+  margin: 12px;
 
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 1px;
   overflow: hidden;
 
-  border-radius: 10px;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
 .header {
   z-index: 1;
 
-  padding: 10px;
+  padding: 12px;
   text-align: center;
 
   font-weight: bold;
