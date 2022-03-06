@@ -7,7 +7,7 @@ export type DayProps = {
   today?: Date;
 };
 
-function dateIsSameDay(lhs: Date, rhs: Date): boolean {   // TODO: This is kind of ugly.
+function dateIsSameDay(lhs: Date, rhs: Date): boolean {
   return lhs.getFullYear() == rhs.getFullYear() &&
   lhs.getMonth() == rhs.getMonth() &&
   lhs.getDate() == rhs.getDate();

@@ -6,14 +6,14 @@ body {
 
 /* Forms */
 button, input {
-  margin: 4px;
-
   padding: 12px;
 
   border-radius: 6px;
 }
 
 button {
+  margin: 4px;
+
   color: white;
   font-weight: bold;
   background-color: grey;
@@ -24,4 +24,17 @@ button {
 
 button:hover {
   background-color: lightgrey;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 4px 0;
+
+  border: 1px solid grey;
+}
+
+.invalidInput {
+  border: 1px solid red;
+  background: mistyrose;
 }

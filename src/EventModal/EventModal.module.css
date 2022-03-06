@@ -1,0 +1,24 @@
+.header {
+  display: flex;
+  padding: 12px;
+
+  align-items: center;
+}
+
+.name {
+  flex-grow: 1;
+
+  font-weight: bold;
+}
+
+.container {
+  margin: 12px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.data {
+  margin-bottom: 12px;;
+}
