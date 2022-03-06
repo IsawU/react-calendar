@@ -4,7 +4,7 @@ export type DayProps = {
   date: Date;
   month?: Date;
   today?: Date;
-}
+};
 
 function dateIsSameDay(lhs: Date, rhs: Date): boolean {   // TODO: This is kind of ugly.
   return lhs.getFullYear() == rhs.getFullYear() &&
@@ -43,5 +43,5 @@ export default function Day(props: DayProps) {
         {events}
       </div>
     </div>
-  )
+  );
 }
