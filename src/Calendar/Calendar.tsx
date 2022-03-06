@@ -1,5 +1,6 @@
 import styles from './Calendar.module.css';
 import Day from './Day';
+import { getShortWeekday } from '../utils/date';
 
 export type CalendarProps = {
   month: Date;
@@ -29,7 +30,7 @@ export default function Calendar(props: CalendarProps) {
     dateHeaders.setDate(day);
     dayHeaders.push(
       <div className={styles.header}>
-        {dateHeaders.toLocaleDateString(navigator.language, { weekday: 'short' })}
+        {getShortWeekday(dateHeaders)}
       </div>
     );
   }
