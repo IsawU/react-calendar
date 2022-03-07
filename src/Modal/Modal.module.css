@@ -15,11 +15,15 @@
 
 .modal {
   margin: 12px;
-  max-width: 80vw;
+  max-width: 100%;
 
   overflow: hidden;
 
   border-radius: 12px;
   background-color: white;
   box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.modalWidth {
+  min-width: 800px;
 }

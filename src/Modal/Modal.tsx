@@ -8,6 +8,7 @@ export default function Modal(props: Props) {
   return (
     <div className={styles.backdrop}>
       <div className={styles.modal}>
+        <div className={styles.modalWidth}></div>
         {props.children}
       </div>
     </div>
