@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  padding: 12px;
+
+  flex-wrap: wrap-reverse;
+  align-items: center;
+  justify-content: end;
+
+  background-color: grey;
+}
+
+.title {
+  flex-grow: 1;
+
+  font-weight: bold;
+  color: white;
+}
+
+.headerButton {
+  color: grey;
+  background-color: white;
+}
+
+.container {
+  margin: 12px;
+}
+
+.container:empty {
+  display: none;
+}

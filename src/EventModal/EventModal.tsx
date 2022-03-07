@@ -64,7 +64,8 @@ function eventModal(props: EventProps): JSX.Element {
   }
 
   // Button actions
-  const save: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onSave: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     if (name.valid && from.valid && to.valid) {
       const numFrom: number = Date.parse(from.value);
       const numTo: number = Date.parse(to.value);
@@ -83,7 +84,8 @@ function eventModal(props: EventProps): JSX.Element {
     alert("Invalid input.");  // TODO
   };
 
-  const cancel: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onCancel: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     const newEvent: boolean = props.new ?? false;
     if (confirm('Cancel?')) {   // TODO
       if (newEvent) {
@@ -99,43 +101,46 @@ function eventModal(props: EventProps): JSX.Element {
     }
   };
 
-  const remove: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onRemove: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     if (confirm('Remove?')) {   // TODO
       props.remove(props.event);
       props.close();
     }
   };
 
-  const edit: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onEdit: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     setEditing(true);
   };
 
-  const close: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onClose: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     props.close();
   };
 
   // Inputs change
-  const nameChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const value: string = event.target.value;
+  const nameChange: React.ChangeEventHandler<HTMLInputElement> = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value;
     setName(validated(value, checkName(value)));
   };
 
-  const fromChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const from: string = event.target.value;
+  const fromChange: React.ChangeEventHandler<HTMLInputElement> = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const from: string = e.target.value;
     const dateValidity: DateValidity = checkDate(from, to.value);
     setFrom(validated(from, dateValidity.from));
     setTo(validated(to.value, dateValidity.to));
   };
 
-  const toChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const to: string = event.target.value;
+  const toChange: React.ChangeEventHandler<HTMLInputElement> = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const to: string = e.target.value;
     const dateValidity: DateValidity= checkDate(from.value, to);
     setTo(validated(to, dateValidity.to));
     setFrom(validated(from.value, dateValidity.from));
   };
 
-  const colorChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setColor(event.target.value);
+  const colorChange: React.ChangeEventHandler<HTMLInputElement> = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setColor(e.target.value);
   };
 
   if (editing) {
@@ -147,8 +152,8 @@ function eventModal(props: EventProps): JSX.Element {
               <input type="text" className={getValidatedStyle(name)} value={name.value} onChange={nameChange} placeholder="Event name"/>
             </div>
             <div>
-              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={save}>Save</button>
-              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={cancel}>Cancel</button>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onSave}>Save</button>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onCancel}>Cancel</button>
             </div>
           </div>
           <div className={styles.container}>
@@ -170,9 +175,9 @@ function eventModal(props: EventProps): JSX.Element {
           <div className={styles.header} style={{color: getTextColor(color), backgroundColor: color}}>
             <div className={styles.name}>{name.value}<br/><small>{props.event.uuid}</small></div>
             <div>
-              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={remove}>Delete</button>
-              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={edit}>Edit</button>
-              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={close}>&times;</button>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onRemove}>Delete</button>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onEdit}>Edit</button>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onClose}>&times;</button>
             </div>
           </div>
           <div className={styles.container}>
