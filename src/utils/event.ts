@@ -1,5 +1,7 @@
+let uid = 0;  // TODO: Crypto.randomUUID() is too recent, use https://github.com/streamich/v4-uuid.
+
 export type Event = {
-  uuid: string;
+  uuid: number;
   name: string,
   from: Date,
   to: Date,
@@ -7,8 +9,9 @@ export type Event = {
 };
 
 export function newEvent(name: string, from: Date, to: Date, color: string | undefined): Event {
+  uid += 1;
   return {
-    uuid: crypto.randomUUID(),
+    uuid: uid,
     name: name,
     from: from,
     to: to,
