@@ -3,6 +3,7 @@ import Modal from '../Modal';
 import styles from './EventModal.module.css';
 import { Event, getTextColor, getDefaultEventColor } from '../utils/event';
 import { getHumanReadableDate } from '../utils/date';
+import { Validated, validated, getValidatedStyle } from '../utils/validate';
 
 export type EventProps = {
   event: Event;
@@ -11,19 +12,6 @@ export type EventProps = {
   remove: (event: Event) => void;
   close: () => void;
 };
-
-type Validated<T> = {
-  value: T,
-  valid: boolean;
-};
-
-function validated<T>(value: T, valid: boolean) {
-  return { value: value, valid: valid };
-}
-
-function validityClassName<T>(value: Validated<T>) {
-  return value.valid ? '' : 'invalidInput';
-}
 
 // TODO: Add a better date picker because DST breaks things.
 export default function EventModal(props: { data: EventProps | undefined }) {
@@ -146,16 +134,16 @@ export default function EventModal(props: { data: EventProps | undefined }) {
         <>
           <div className={styles.header} style={{color: getTextColor(color), backgroundColor: color}}>
             <div className={styles.name}>
-              <input type="text" className={validityClassName(name)} value={name.value} onChange={nameChange} placeholder="Event name"/>
+              <input type="text" className={getValidatedStyle(name)} value={name.value} onChange={nameChange} placeholder="Event name"/>
             </div>
             <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={save}>Save</button>
             <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={cancel}>Cancel</button>
           </div>
           <div className={styles.container}>
             <div className={styles.label}>From:</div>
-            <input type="text" className={validityClassName(from)} value={from.value} onChange={fromChange}/>
+            <input type="text" className={getValidatedStyle(from)} value={from.value} onChange={fromChange}/>
             <div className={styles.label}>To:</div>
-            <input type="text" className={validityClassName(to)} value={to.value} onChange={toChange}/>
+            <input type="text" className={getValidatedStyle(to)} value={to.value} onChange={toChange}/>
             <div className={styles.label}>Color:</div>
             <input type="text" value={color} onChange={colorChange} placeholder="#000000 format color"/>
           </div>
