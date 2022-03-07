@@ -140,8 +140,10 @@ function eventModal(props: EventProps) {
             <div className={styles.name}>
               <input type="text" className={getValidatedStyle(name)} value={name.value} onChange={nameChange} placeholder="Event name"/>
             </div>
-            <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={save}>Save</button>
-            <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={cancel}>Cancel</button>
+            <div>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={save}>Save</button>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={cancel}>Cancel</button>
+            </div>
           </div>
           <div className={styles.container}>
             <div className={styles.label}>From:</div>
@@ -161,9 +163,11 @@ function eventModal(props: EventProps) {
         <>
           <div className={styles.header} style={{color: getTextColor(color), backgroundColor: color}}>
             <div className={styles.name}>{name.value}<br/><small>{props.event.uuid}</small></div>
-            <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={remove}>Delete</button>
-            <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={edit}>Edit</button>
-            <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={close}>&times;</button>
+            <div>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={remove}>Delete</button>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={edit}>Edit</button>
+              <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={close}>&times;</button>
+            </div>
           </div>
           <div className={styles.container}>
             <div className={styles.label}>From:</div>
