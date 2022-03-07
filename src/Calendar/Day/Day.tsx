@@ -1,40 +1,48 @@
 import styles from './Day.module.css';
-import { getShortWeekday } from '../../utils/date';
+import eventStyles from './EventView/EventView.module.css';
+import { Event } from '../../utils/event';
+import { getShortWeekday, isSameDay, isDayInRange } from '../../utils/date';
+import EventView from './EventView';
 
 export type DayProps = {
   date: Date;
   month?: Date;
   today?: Date;
+  events?: Event[];
+  addEvent?: (event: Event) => void;
+  editEvent?: (event: Event) => void;
+  removeEvent?: (event: Event) => void;
 };
 
-function dateIsSameDay(lhs: Date, rhs: Date): boolean {
-  return lhs.getFullYear() == rhs.getFullYear() &&
-  lhs.getMonth() == rhs.getMonth() &&
-  lhs.getDate() == rhs.getDate();
-}
-
 export default function Day(props: DayProps) {
-  const isWeekend = props.date.getDay() == 0 || props.date.getDay() == 6;
-  const isInactive = props.date !== undefined && props.month !== undefined ? props.date.getMonth() != props.month.getMonth() : false;
-  const isToday = props.today !== undefined ? dateIsSameDay(props.date, props.today) : false;
+  const isWeekend: boolean = props.date.getDay() == 0 || props.date.getDay() == 6;
+  const isInactive: boolean = props.date !== undefined && props.month !== undefined ? props.date.getMonth() != props.month.getMonth() : false;
+  const isToday: boolean = props.today !== undefined ? isSameDay(props.date, props.today) : false;
 
-  // TODO: Remove mockup and actually implement events.
-  const eventCount = props.date.getDay();
-
+  // Events
+  const todayEvents: Event[] | undefined = props.events?.filter(event => isDayInRange(props.date, event.from, event.to));
+  const eventCount: number = todayEvents !== undefined ? todayEvents.length : 0;
   const events: JSX.Element[] = [];
   for (let event = 0; event < 5; ++event) {
-    if (event >= eventCount) {
-      events.push(<div className={`${styles.item} ${styles.empty}`}>Test {event}</div>);
+    if (event >= eventCount || todayEvents === undefined) { // Empty
+      events.push(<div className={`${eventStyles.item} ${eventStyles.empty}`}>Hic sunt leones…</div>);
     }
-    else if (event == 4 && eventCount > 5) {
-      let more = eventCount - 4;
-      events.push(<div className={`${styles.item} ${styles.more}`}>+ {more} more event{more > 1 ? 's' : ''}</div>);
+    else if (event == 4 && eventCount > 5) {  // N more events
+      const more: number = eventCount - 4;
+      events.push(<div className={`${eventStyles.item} ${eventStyles.more}`}>+ {more} more event{more > 1 ? 's' : ''}</div>);
     }
-    else {
-      events.push(<div className={`${styles.item} ${styles.event}`}>Test {event}</div>);
+    else {      // EventView
+      events.push(
+        <EventView event={todayEvents[event]} onClick={
+          () => {
+            if (props.editEvent !== undefined) {
+              props.editEvent(todayEvents[event])
+            }
+          }
+        }/>
+      );
     }
   }
-  // ----
 
   return (
     <div className={`${styles.day} ${isWeekend ? styles.weekend : ''} ${isInactive ? styles.inactive : ''} ${isToday ? styles.today : ''}`}>
