@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './App.module.css';
 import Calendar from './Calendar';
-import { Event, newEvent } from './utils/event';
+import { Event, getDefaultEventColor, newEvent } from './utils/event';
 import EventModal, { EventProps } from './EventModal';
 import { getLongMonth } from './utils/date';
 
@@ -19,50 +19,53 @@ export default function App() {
     }
   }
 
+  function addEvent(event: Event) {
+    setcurrentEditEvent({
+      event: event,
+      new: true,
+      save: saveEvent,
+      remove: removeEvent,
+      close: closeEditEvent,
+    });
+  }
+
+  function editEvent(event: Event) {
+    setcurrentEditEvent({
+      event: event,
+      save: saveEvent,
+      remove: removeEvent,
+      close: closeEditEvent,
+    });
+  }
+
   function removeEvent(event: Event) {
     setEvents(events.filter((e) => e.uuid != event.uuid));
   }
 
+  function closeEditEvent() {
+    setcurrentEditEvent(undefined);
+  }
+
   // Button Actions
-  const monthDown: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onMonthDown: React.MouseEventHandler<HTMLButtonElement> = () => {
     const date = new Date(month);
     date.setDate(0);
     setMonth(date);
   };
 
-  const monthUp: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onMonthUp: React.MouseEventHandler<HTMLButtonElement> = () => {
     const date = new Date(month);
     date.setDate(32);
     setMonth(date);
   };
 
-  const monthToday: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onMonthToday: React.MouseEventHandler<HTMLButtonElement> = () => {
     const date = new Date(today);
     setMonth(date);               // TODO: Scroll appropriately.
   };
 
-  const addEvent: React.MouseEventHandler<HTMLButtonElement> = () => {
-    setcurrentEditEvent({
-      event: newEvent('Test event', new Date(), new Date(), '#558899'),
-      new: true,
-      save: saveEvent,
-      remove: removeEvent,
-      close: () => {
-        setcurrentEditEvent(undefined);
-      }
-    });
-  };
-
-  const editEvent: React.MouseEventHandler<HTMLButtonElement> = () => {
-    if (events.length < 1) return;
-    setcurrentEditEvent({
-      event: events[0],
-      save: saveEvent,
-      remove: removeEvent,
-      close: () => {
-        setcurrentEditEvent(undefined);
-      }
-    });
+  const onAddEvent: React.MouseEventHandler<HTMLButtonElement> = () => {
+    addEvent(newEvent('Test event', new Date(), new Date(), getDefaultEventColor()));
   };
 
   const list: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -73,17 +76,16 @@ export default function App() {
     <>
       <div className={styles.contentStrip}>
         <div className={styles.controls}>
-          <button onClick={monthDown}>&lt;</button>
+          <button onClick={onMonthDown}>&lt;</button>
           <div className={styles.month}>
             {getLongMonth(month)}
           </div>
-          <button onClick={monthUp}>&gt;</button>
-          <button onClick={monthToday}>Today</button>
-          <button onClick={addEvent}>new</button>
-          <button onClick={editEvent}>edit</button>
+          <button onClick={onMonthUp}>&gt;</button>
+          <button onClick={onMonthToday}>Today</button>
+          <button onClick={onAddEvent}>new</button>
           <button onClick={list}>list</button>
         </div>
-        <Calendar today={today} month={month}/>
+        <Calendar today={today} month={month} events={events} addEvent={addEvent} editEvent={editEvent} removeEvent={removeEvent}/>
       </div>
       <EventModal data={currentEditEvent}/>
     </>

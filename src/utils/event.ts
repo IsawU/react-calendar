@@ -1,6 +1,6 @@
 let uid = 0;  // TODO: Crypto.randomUUID() is too recent, use https://github.com/streamich/v4-uuid.
 
-export type Event = {
+export type Event = {   // TODO: Possibly rename this type to avoid collision.
   uuid: number;
   name: string,
   from: Date,
@@ -20,7 +20,7 @@ export function newEvent(name: string, from: Date, to: Date, color: string | und
 }
 
 export function getDefaultEventColor(): string {
-  return '#558899';
+  return '#add8e6';
 }
 
 export function getTextColor(backgroundColor: string): string {
