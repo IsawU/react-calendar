@@ -15,20 +15,20 @@ export type EventProps = {
 
 // TODO: Add a better date picker because DST breaks things.
 export default function EventModal(props: { data: EventProps | undefined }) {
-  if (props.data === undefined) {     // TODO: Rethink this as props.data is ugly and this approach causes some "Object is possibly 'undefined'." errors.
-    return (<></>);
-  }
+  return props.data !== undefined ? eventModal(props.data) : <></>;
+}
 
-  const newEvent = props.data.new !== undefined ? props.data.new : false;
-  const ownColor = props.data.event.color !== undefined ? props.data.event.color : getDefaultEventColor();
+function eventModal(props: EventProps) {
+  const newEvent = props.new !== undefined ? props.new : false;
+  const ownColor = props.event.color !== undefined ? props.event.color : getDefaultEventColor();
 
   const [editing, setEditing] = useState<boolean>(newEvent);
 
-  const initialDateValidity = checkDate(getHumanReadableDate(props.data.event.from), getHumanReadableDate(props.data.event.to));
+  const initialDateValidity = checkDate(getHumanReadableDate(props.event.from), getHumanReadableDate(props.event.to));
 
-  const [name, setName] = useState<Validated<string>>(validated(props.data.event.name, checkName(props.data.event.name)));
-  const [from, setFrom] = useState<Validated<string>>(validated(getHumanReadableDate(props.data.event.from), initialDateValidity.from));
-  const [to, setTo] = useState<Validated<string>>(validated(getHumanReadableDate(props.data.event.to), initialDateValidity.to));
+  const [name, setName] = useState<Validated<string>>(validated(props.event.name, checkName(props.event.name)));
+  const [from, setFrom] = useState<Validated<string>>(validated(getHumanReadableDate(props.event.from), initialDateValidity.from));
+  const [to, setTo] = useState<Validated<string>>(validated(getHumanReadableDate(props.event.to), initialDateValidity.to));
   const [color, setColor] = useState<string>(ownColor);
 
   // Validation functions
@@ -64,12 +64,12 @@ export default function EventModal(props: { data: EventProps | undefined }) {
       const numFrom = Date.parse(from.value);
       const numTo = Date.parse(to.value);
       if (isFinite(numFrom) && isFinite(numTo)) {
-        props.data.event.name = name.value;
-        props.data.event.from = new Date(numFrom);
-        props.data.event.to = new Date(numTo);
-        props.data.event.color = color.length > 0 ? color : undefined;
-        props.data.save(props.data.event);
-        props.data.new = false;
+        props.event.name = name.value;
+        props.event.from = new Date(numFrom);
+        props.event.to = new Date(numTo);
+        props.event.color = color.length > 0 ? color : undefined;
+        props.save(props.event);
+        props.new = false;
         setEditing(false);
         return;
       }
@@ -78,22 +78,26 @@ export default function EventModal(props: { data: EventProps | undefined }) {
   };
 
   const cancel: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const newEvent = props.data.new !== undefined ? props.data.new : false;
-    if (newEvent) {
-      props.data.close();
-    }
-    else {
-      setName(validated(props.data.event.name, true));
-      setFrom(validated(getHumanReadableDate(props.data.event.from), true));
-      setTo(validated(getHumanReadableDate(props.data.event.to), true));
-      setColor(ownColor)
-      setEditing(false);
+    const newEvent = props.new !== undefined ? props.new : false;
+    if (confirm('Cancel?')) {   // TODO
+      if (newEvent) {
+        props.close();
+      }
+      else {
+        setName(validated(props.event.name, true));
+        setFrom(validated(getHumanReadableDate(props.event.from), true));
+        setTo(validated(getHumanReadableDate(props.event.to), true));
+        setColor(ownColor)
+        setEditing(false);
+      }
     }
   };
 
   const remove: React.MouseEventHandler<HTMLButtonElement> = () => {
-    props.data.remove(props.data.event);
-    props.data.close();
+    if (confirm('Remove?')) {   // TODO
+      props.remove(props.event);
+      props.close();
+    }
   };
 
   const edit: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -101,7 +105,7 @@ export default function EventModal(props: { data: EventProps | undefined }) {
   };
 
   const close: React.MouseEventHandler<HTMLButtonElement> = () => {
-    props.data.close();
+    props.close();
   };
 
   // Inputs change
@@ -156,7 +160,7 @@ export default function EventModal(props: { data: EventProps | undefined }) {
       <Modal>
         <>
           <div className={styles.header} style={{color: getTextColor(color), backgroundColor: color}}>
-            <div className={styles.name}>{name.value}<br/><small>{props.data.event.uuid}</small></div>
+            <div className={styles.name}>{name.value}<br/><small>{props.event.uuid}</small></div>
             <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={remove}>Delete</button>
             <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={edit}>Edit</button>
             <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={close}>&times;</button>
