@@ -5,21 +5,21 @@ import { Event, getDefaultEventColor, newEvent } from './utils/event';
 import EventModal, { EventProps } from './EventModal';
 import { getLongMonth } from './utils/date';
 
-export default function App() {
+export default function App(): JSX.Element {
   const [today, setToday] = useState<Date>(new Date());
   const [month, setMonth] = useState<Date>(new Date());
   const [events, setEvents] = useState<Event[]>([]);
   const [currentEditEvent, setcurrentEditEvent] = useState<EventProps | undefined>(undefined);
 
   // Events
-  function saveEvent(event: Event) {
+  function saveEvent(event: Event): void {
     if (events.filter((e) => e.uuid == event.uuid).length == 0) {
       events.push(event);
       setEvents(events);
     }
   }
 
-  function addEvent(event: Event) {
+  function addEvent(event: Event): void {
     setcurrentEditEvent({
       event: event,
       new: true,
@@ -29,7 +29,7 @@ export default function App() {
     });
   }
 
-  function editEvent(event: Event) {
+  function editEvent(event: Event): void {
     setcurrentEditEvent({
       event: event,
       save: saveEvent,
@@ -38,11 +38,11 @@ export default function App() {
     });
   }
 
-  function removeEvent(event: Event) {
+  function removeEvent(event: Event): void {
     setEvents(events.filter((e) => e.uuid != event.uuid));
   }
 
-  function closeEditEvent() {
+  function closeEditEvent(): void {
     setcurrentEditEvent(undefined);
   }
 
