@@ -14,13 +14,13 @@ export type EventProps = {
 };
 
 // TODO: Add a better date picker because DST breaks things.
-export default function EventModal(props: { data: EventProps | undefined }) {
+export default function EventModal(props: { data: EventProps | undefined }): JSX.Element {
   return props.data !== undefined ? eventModal(props.data) : <></>;
 }
 
-function eventModal(props: EventProps) {
-  const newEvent = props.new !== undefined ? props.new : false;
-  const ownColor = props.event.color !== undefined ? props.event.color : getDefaultEventColor();
+function eventModal(props: EventProps): JSX.Element {
+  const newEvent: boolean = props.new ?? false;
+  const ownColor: string = props.event.color ?? getDefaultEventColor();
 
   const [editing, setEditing] = useState<boolean>(newEvent);
 
@@ -33,22 +33,27 @@ function eventModal(props: EventProps) {
 
   // Validation functions
   function checkName(name: string): boolean {
-    return name.length > 0;
+    return name.trim().length > 0;
   }
 
-  function checkDate(from: string, to: string): { from: boolean, to: boolean } {
+  type DateValidity = {
+    from: boolean,
+    to: boolean,
+  };
+
+  function checkDate(from: string, to: string): DateValidity {
     let fromResult: boolean = true;
     let toResult: boolean = true;
 
-    const fromTime = Date.parse(from);
-    const toTime = Date.parse(to);
+    const fromTime: number = Date.parse(from);
+    const toTime: number = Date.parse(to);
 
     if (!isFinite(fromTime)) fromResult = false;
     if (!isFinite(toTime)) toResult = false;
 
     if (fromResult && toResult) {
-      const fromDate = new Date(fromTime);
-      const toDate = new Date(toTime);
+      const fromDate: Date = new Date(fromTime);
+      const toDate: Date = new Date(toTime);
       if (toDate < fromDate) {
         fromResult = false;
         toResult = false;
@@ -61,13 +66,14 @@ function eventModal(props: EventProps) {
   // Button actions
   const save: React.MouseEventHandler<HTMLButtonElement> = () => {
     if (name.valid && from.valid && to.valid) {
-      const numFrom = Date.parse(from.value);
-      const numTo = Date.parse(to.value);
+      const numFrom: number = Date.parse(from.value);
+      const numTo: number = Date.parse(to.value);
       if (isFinite(numFrom) && isFinite(numTo)) {
-        props.event.name = name.value;
+        const colorTrimmed: string = color.trim();
+        props.event.name = name.value.trim();
         props.event.from = new Date(numFrom);
         props.event.to = new Date(numTo);
-        props.event.color = color.length > 0 ? color : undefined;
+        props.event.color = colorTrimmed.length > 0 ? colorTrimmed : undefined;
         props.save(props.event);
         props.new = false;
         setEditing(false);
@@ -78,7 +84,7 @@ function eventModal(props: EventProps) {
   };
 
   const cancel: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const newEvent = props.new !== undefined ? props.new : false;
+    const newEvent: boolean = props.new ?? false;
     if (confirm('Cancel?')) {   // TODO
       if (newEvent) {
         props.close();
@@ -116,14 +122,14 @@ function eventModal(props: EventProps) {
 
   const fromChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const from: string = event.target.value;
-    const dateValidity = checkDate(from, to.value);
+    const dateValidity: DateValidity = checkDate(from, to.value);
     setFrom(validated(from, dateValidity.from));
     setTo(validated(to.value, dateValidity.to));
   };
 
   const toChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const to: string = event.target.value;
-    const dateValidity = checkDate(from.value, to);
+    const dateValidity: DateValidity= checkDate(from.value, to);
     setTo(validated(to, dateValidity.to));
     setFrom(validated(from.value, dateValidity.from));
   };

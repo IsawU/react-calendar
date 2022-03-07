@@ -14,7 +14,7 @@ export type DayProps = {
   removeEvent?: (event: Event) => void;
 };
 
-export default function Day(props: DayProps) {
+export default function Day(props: DayProps): JSX.Element {
   const isWeekend: boolean = props.date.getDay() == 0 || props.date.getDay() == 6;
   const isInactive: boolean = props.date !== undefined && props.month !== undefined ? props.date.getMonth() != props.month.getMonth() : false;
   const isToday: boolean = props.today !== undefined ? isSameDay(props.date, props.today) : false;
