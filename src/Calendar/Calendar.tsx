@@ -7,9 +7,8 @@ export type CalendarProps = {
   month: Date;
   today?: Date;
   events?: Event[];
-  addEvent?: (event: Event) => void;
   editEvent?: (event: Event) => void;
-  removeEvent?: (event: Event) => void;
+  viewDay?: (day: Date) => void;
 };
 
 export default function Calendar(props: CalendarProps): JSX.Element {
@@ -25,7 +24,7 @@ export default function Calendar(props: CalendarProps): JSX.Element {
   for (let day = firstCalenderDay; day < firstCalenderDay+42; ++day) {
     const date = new Date(props.month);
     date.setDate(day);
-    days.push(<Day date={date} month={month} today={today} events={props.events} addEvent={props.addEvent} editEvent={props.editEvent} removeEvent={props.removeEvent}/>);
+    days.push(<Day date={date} month={month} today={today} events={props.events} editEvent={props.editEvent} viewDay={props.viewDay}/>);
   }
 
   // Get short day names for calendar header.

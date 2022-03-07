@@ -9,9 +9,8 @@ export type DayProps = {
   month?: Date;
   today?: Date;
   events?: Event[];
-  addEvent?: (event: Event) => void;
   editEvent?: (event: Event) => void;
-  removeEvent?: (event: Event) => void;
+  viewDay?: (day: Date) => void;
 };
 
 export default function Day(props: DayProps): JSX.Element {
@@ -19,17 +18,25 @@ export default function Day(props: DayProps): JSX.Element {
   const isInactive: boolean = props.date !== undefined && props.month !== undefined ? props.date.getMonth() != props.month.getMonth() : false;
   const isToday: boolean = props.today !== undefined ? isSameDay(props.date, props.today) : false;
 
+  // Click handlers
+  const onViewDay: React.MouseEventHandler<HTMLDivElement> = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (props.viewDay !== undefined) {
+      props.viewDay(props.date);
+    }
+  };
+
   // Events
   const todayEvents: Event[] | undefined = props.events?.filter(event => isDayInRange(props.date, event.from, event.to));
   const eventCount: number = todayEvents !== undefined ? todayEvents.length : 0;
   const events: JSX.Element[] = [];
   for (let event = 0; event < 5; ++event) {
-    if (event >= eventCount || todayEvents === undefined) { // Empty
+    if (event >= eventCount || todayEvents === undefined) {   // Empty
       events.push(<div className={`${eventStyles.item} ${eventStyles.empty}`}>Hic sunt leones…</div>);
     }
     else if (event == 4 && eventCount > 5) {  // N more events
       const more: number = eventCount - 4;
-      events.push(<div className={`${eventStyles.item} ${eventStyles.more}`}>+ {more} more event{more > 1 ? 's' : ''}</div>);
+      events.push(<div className={`${eventStyles.item} ${eventStyles.more}`} onClick={onViewDay}>+ {more} more event{more > 1 ? 's' : ''}</div>);
     }
     else {      // EventView
       events.push(
@@ -47,7 +54,7 @@ export default function Day(props: DayProps): JSX.Element {
   return (
     <div className={`${styles.day} ${isWeekend ? styles.weekend : ''} ${isInactive ? styles.inactive : ''} ${isToday ? styles.today : ''}`}>
       <div className={styles.header}>{getShortWeekday(props.date)}</div>
-      <div className={styles.data}>
+      <div className={styles.data} onClick={onViewDay}>
         <div className={styles.title}>{props.date.getDate()}</div>
         {events}
       </div>

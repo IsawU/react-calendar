@@ -6,6 +6,13 @@
   box-shadow: 0 0 0 1px grey;
 }
 
+.data {
+  width: 100%;
+
+  overflow: hidden;
+  cursor: pointer;
+}
+
 .inactive>.data {
   opacity: 0.3;
 }
@@ -34,12 +41,6 @@
   writing-mode: sideways-lr;
   background-color: grey;
   color: white;
-}
-
-.data {
-  width: 100%;
-
-  overflow: hidden;
 }
 
 .title {

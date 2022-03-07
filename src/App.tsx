@@ -3,13 +3,21 @@ import styles from './App.module.css';
 import Calendar from './Calendar';
 import { Event, getDefaultEventColor, newEvent } from './utils/event';
 import EventModal, { EventProps } from './EventModal';
+import DayModal, { DayModalProps } from './DayModal';
 import { getLongMonth } from './utils/date';
 
 export default function App(): JSX.Element {
-  const [today, setToday] = useState<Date>(new Date());
+  const [today, _] = useState<Date>(new Date());
   const [month, setMonth] = useState<Date>(new Date());
   const [events, setEvents] = useState<Event[]>([]);
+
   const [currentEditEvent, setcurrentEditEvent] = useState<EventProps | undefined>(undefined);
+  const [currentViewDay, setCurrentViewDay] = useState<DayModalProps | undefined>(undefined);
+
+  function toThisMonth(): void {
+    const date = new Date(today);
+    setMonth(date);               // TODO: Scroll appropriately.
+  }
 
   // Events
   function saveEvent(event: Event): void {
@@ -39,37 +47,63 @@ export default function App(): JSX.Element {
   }
 
   function removeEvent(event: Event): void {
-    setEvents(events.filter((e) => e.uuid != event.uuid));
+    const index = events.indexOf(event);
+    delete events[index];
+    setEvents(events);
   }
 
   function closeEditEvent(): void {
     setcurrentEditEvent(undefined);
   }
 
-  // Button Actions
-  const onMonthDown: React.MouseEventHandler<HTMLButtonElement> = () => {
+  // Day view
+  function viewDay(day: Date): void {
+    setCurrentViewDay({
+      date: day,
+      events: events,
+      close: closeViewDay,
+      addEvent: addEvent,
+      editEvent: editEvent,
+    });
+  }
+
+  function closeViewDay(): void {
+    setCurrentViewDay(undefined);
+  }
+
+  // Click handlers
+  const onMonthDown: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     const date = new Date(month);
     date.setDate(0);
     setMonth(date);
   };
 
-  const onMonthUp: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const onMonthUp: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     const date = new Date(month);
     date.setDate(32);
     setMonth(date);
   };
 
-  const onMonthToday: React.MouseEventHandler<HTMLButtonElement> = () => {
-    const date = new Date(today);
-    setMonth(date);               // TODO: Scroll appropriately.
+  const onMonth: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    toThisMonth();
   };
 
-  const onAddEvent: React.MouseEventHandler<HTMLButtonElement> = () => {
-    addEvent(newEvent('Test event', new Date(), new Date(), getDefaultEventColor()));
+  const onToday: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    toThisMonth();
+    viewDay(today);
   };
 
-  const list: React.MouseEventHandler<HTMLButtonElement> = () => {
-    console.log(events);
+  const onAddEvent: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    const from = new Date(today);
+    from.setHours(12);
+    from.setMinutes(0);
+    const to = new Date(from);
+    addEvent(newEvent('', from, to, getDefaultEventColor()));
   };
 
   return (
@@ -81,12 +115,13 @@ export default function App(): JSX.Element {
             {getLongMonth(month)}
           </div>
           <button onClick={onMonthUp}>&gt;</button>
-          <button onClick={onMonthToday}>Today</button>
-          <button onClick={onAddEvent}>new</button>
-          <button onClick={list}>list</button>
+          <button onClick={onMonth}>Current month</button>
+          <button onClick={onToday}>Today</button>
+          <button onClick={onAddEvent}>Add event</button>
         </div>
-        <Calendar today={today} month={month} events={events} addEvent={addEvent} editEvent={editEvent} removeEvent={removeEvent}/>
+        <Calendar today={today} month={month} events={events} editEvent={editEvent} viewDay={viewDay}/>
       </div>
+      <DayModal data={currentViewDay}/>
       <EventModal data={currentEditEvent}/>
     </>
   );
