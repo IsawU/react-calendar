@@ -7,10 +7,18 @@
   margin: 8px;
 }
 
-.month {
-  width: 100px;
+.now {
+  width: 120px;
   display: inline-block;
+  vertical-align: middle;
+}
 
+.month {
   font-weight: bold;
+  text-align: center;
+}
+
+.year {
+  font-size: 0.8em;
   text-align: center;
 }
