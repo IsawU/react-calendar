@@ -4,7 +4,7 @@ import Calendar from './Calendar';
 import { Event, getDefaultEventColor, newEvent } from './utils/event';
 import EventModal, { EventProps } from './EventModal';
 import DayModal, { DayModalProps } from './DayModal';
-import { getLongMonth } from './utils/date';
+import { getLongMonth, getLongYear } from './utils/date';
 
 export default function App(): JSX.Element {
   const [today, _] = useState<Date>(new Date());
@@ -111,8 +111,9 @@ export default function App(): JSX.Element {
       <div className={styles.contentStrip}>
         <div className={styles.controls}>
           <button onClick={onMonthDown}>&lt;</button>
-          <div className={styles.month}>
-            {getLongMonth(month)}
+          <div className={styles.now}>
+            <div className={styles.month}>{getLongMonth(month)}</div>
+            <div className={styles.year}>{getLongYear(month)}</div>
           </div>
           <button onClick={onMonthUp}>&gt;</button>
           <button onClick={onMonth}>Current month</button>
