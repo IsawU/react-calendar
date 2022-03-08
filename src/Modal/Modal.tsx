@@ -7,9 +7,10 @@ type ModalProps = {
 export default function Modal(props: ModalProps): JSX.Element {
   return (
     <div className={styles.backdrop}>
-      <div className={styles.modal}>
-        <div className={styles.modalWidth}></div>
-        {props.children}
+      <div className={styles.contentStrip}>
+        <div className={styles.modal}>
+          {props.children}
+        </div>
       </div>
     </div>
   );
