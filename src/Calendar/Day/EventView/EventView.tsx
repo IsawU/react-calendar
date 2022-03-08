@@ -25,7 +25,7 @@ export default function EventView(props: EventViewProps): JSX.Element {
     const dateText: JSX.Element = props.day !== undefined ? <div>{textFrom} - {textTo}</div> : <></>;
 
     return (
-      <div className={`${styles.item} ${styles.event} ${styles.big}`}
+      <div className={`${styles.big} ${styles.event}`}
            style={{backgroundColor: backgroundColor, color: foregroundColor}}
            onClick={onClick}
            >
@@ -36,7 +36,7 @@ export default function EventView(props: EventViewProps): JSX.Element {
   }
   else {
     return (
-      <div className={`${styles.item} ${styles.event} ${props.day !== undefined ? styles.big : ''}`}
+      <div className={`${styles.item} ${styles.event}`}
           style={{backgroundColor: backgroundColor, color: foregroundColor}}
           onClick={onClick}
           >
