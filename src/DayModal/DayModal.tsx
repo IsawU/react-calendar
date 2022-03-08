@@ -45,7 +45,7 @@ function dayModal(props: DayModalProps): JSX.Element {
   for (let event = 0; event < eventCount; ++event) {
     if (todayEvents !== undefined) {
       events.push(
-        <EventView event={todayEvents[event]} day={props.date} onClick={
+        <EventView key={todayEvents[event].uuid} event={todayEvents[event]} day={props.date} onClick={
           () => {
             if (props.editEvent !== undefined) {
               props.editEvent(todayEvents[event])

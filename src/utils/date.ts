@@ -10,6 +10,10 @@ export function getLongMonth(date: Date): string {
   return date.toLocaleDateString(navigator.language, { month: 'long' });
 }
 
+export function getKeyable(date: Date): string {
+  return date.toLocaleDateString(navigator.language);
+}
+
 export function getLongYear(date: Date): string {
   return date.toLocaleDateString(navigator.language, { year: 'numeric' });
 }

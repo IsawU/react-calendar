@@ -1,7 +1,7 @@
 import styles from './Calendar.module.css';
 import Day from './Day';
 import { Event } from '../utils/event';
-import { getShortWeekday } from '../utils/date';
+import { getShortWeekday, getKeyable } from '../utils/date';
 
 export type CalendarProps = {
   month: Date;
@@ -24,7 +24,7 @@ export default function Calendar(props: CalendarProps): JSX.Element {
   for (let day = firstCalenderDay; day < firstCalenderDay+42; ++day) {
     const date = new Date(props.month);
     date.setDate(day);
-    days.push(<Day date={date} month={month} today={today} events={props.events} editEvent={props.editEvent} viewDay={props.viewDay}/>);
+    days.push(<Day key={getKeyable(date)} date={date} month={month} today={today} events={props.events} editEvent={props.editEvent} viewDay={props.viewDay}/>);
   }
 
   // Get short day names for calendar header.
@@ -32,9 +32,10 @@ export default function Calendar(props: CalendarProps): JSX.Element {
   const dateHeaders: Date = new Date(0);
   for (let day = 5; day < 12; ++day) {    // TODO: Perhaps use a separate component that does not ever need to be redrawn.
     dateHeaders.setDate(day);
+    const weekday = getShortWeekday(dateHeaders);
     dayHeaders.push(
-      <div className={styles.header}>
-        {getShortWeekday(dateHeaders)}
+      <div key={weekday} className={styles.header}>
+        {weekday}
       </div>
     );
   }
