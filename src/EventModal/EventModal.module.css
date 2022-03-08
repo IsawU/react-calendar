@@ -7,10 +7,14 @@
   justify-content: end;
 }
 
-.name {
+.title {
   flex-grow: 1;
 
   font-weight: bold;
+}
+
+.controls {
+  text-align: right;
 }
 
 .container {

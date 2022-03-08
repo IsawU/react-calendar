@@ -58,7 +58,7 @@ function dayModal(props: DayModalProps): JSX.Element {
       <>
         <div className={styles.header}>
           <div className={styles.title}>{title}</div>
-          <div>
+          <div className={styles.controls}>
             <button className={styles.headerButton} onClick={onAddEvent}>Add</button>
             <button className={styles.headerButton} onClick={onClose}>&times;</button>
           </div>
