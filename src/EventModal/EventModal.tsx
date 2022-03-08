@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Modal from '../Modal';
+import Modal, { enableBodyScroll } from '../Modal';
 import styles from './EventModal.module.css';
 import { Event, getTextColor, getDefaultEventColor } from '../utils/event';
 import { getHumanReadableDate } from '../utils/date';
@@ -30,6 +30,13 @@ function eventModal(props: EventProps): JSX.Element {
   const [from, setFrom] = useState<Validated<string>>(validated(getHumanReadableDate(props.event.from), initialDateValidity.from));
   const [to, setTo] = useState<Validated<string>>(validated(getHumanReadableDate(props.event.to), initialDateValidity.to));
   const [color, setColor] = useState<string>(ownColor);
+
+  enableBodyScroll(false);
+
+  function close(): void {
+    enableBodyScroll(true);
+    props.close();
+  }
 
   // Validation functions
   function checkName(name: string): boolean {
@@ -89,7 +96,7 @@ function eventModal(props: EventProps): JSX.Element {
     const newEvent: boolean = props.new ?? false;
     if (confirm('Cancel?')) {   // TODO
       if (newEvent) {
-        props.close();
+        close();
       }
       else {
         setName(validated(props.event.name, true));
@@ -105,7 +112,7 @@ function eventModal(props: EventProps): JSX.Element {
     e.stopPropagation();
     if (confirm('Remove?')) {   // TODO
       props.remove(props.event);
-      props.close();
+      close();
     }
   };
 
@@ -116,7 +123,7 @@ function eventModal(props: EventProps): JSX.Element {
 
   const onClose: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    props.close();
+    close();
   };
 
   // Inputs change
