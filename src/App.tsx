@@ -6,6 +6,7 @@ import EventModal, { EventProps } from './EventModal';
 import DayModal, { DayModalProps } from './DayModal';
 import { getLongMonth, getLongYear } from './utils/date';
 
+// TODO: Accessibility pass
 export default function App(): JSX.Element {
   const [today, _] = useState<Date>(new Date());
   const [month, setMonth] = useState<Date>(new Date());
