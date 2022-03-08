@@ -5,7 +5,7 @@ type ModalProps = {
 }
 
 // TODO: This is not the best implementation.
-// An underlying modals need to reload when top level modal is closed,
+// Background modals need to reload when top level modal is closed,
 // otherwise, the body will unblock.
 export function enableBodyScroll(enable: boolean): void {
   const body: HTMLBodyElement = document.getElementsByTagName('body')[0];

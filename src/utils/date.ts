@@ -31,7 +31,7 @@ export function isSameDay(lhs: Date, rhs: Date): boolean {
 export function isDayInRange(day: Date, from: Date, to: Date): boolean {
   return (from <= day && to >= day) ||
     isSameDay(day, from) ||
-    isSameDay(day, to);  // TODO: Will miss in edge cases.
+    isSameDay(day, to);
 }
 
 export function getTextRelative(today: Date, other: Date): string {
