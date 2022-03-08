@@ -32,15 +32,15 @@ export default function Day(props: DayProps): JSX.Element {
   const events: JSX.Element[] = [];
   for (let event = 0; event < 5; ++event) {
     if (event >= eventCount || todayEvents === undefined) {   // Empty
-      events.push(<div className={`${eventStyles.item} ${eventStyles.empty}`}>Hic sunt leones…</div>);
+      events.push(<div key={`empty${event}`} className={`${eventStyles.item} ${eventStyles.empty}`}>Hic sunt leones…</div>);
     }
     else if (event == 4 && eventCount > 5) {  // N more events
       const more: number = eventCount - 4;
-      events.push(<div className={`${eventStyles.item} ${eventStyles.more}`} onClick={onViewDay}>+ {more} more event{more > 1 ? 's' : ''}</div>);
+      events.push(<div key={'more'} className={`${eventStyles.item} ${eventStyles.more}`} onClick={onViewDay}>+ {more} more event{more > 1 ? 's' : ''}</div>);
     }
     else {      // EventView
       events.push(
-        <EventView event={todayEvents[event]} onClick={
+        <EventView key={todayEvents[event].uuid} event={todayEvents[event]} onClick={
           () => {
             if (props.editEvent !== undefined) {
               props.editEvent(todayEvents[event])
