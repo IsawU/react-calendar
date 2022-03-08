@@ -1,5 +1,5 @@
 import styles from './DayModal.module.css';
-import Modal from '../Modal';
+import Modal, { enableBodyScroll } from '../Modal';
 import EventView from '../Calendar/Day/EventView';
 import { Event, newEvent, getDefaultEventColor } from '../utils/event';
 import { getDescriptiveWeekday, isDayInRange } from '../utils/date';
@@ -19,6 +19,8 @@ export default function DayModal(props: {data: DayModalProps | undefined}): JSX.
 function dayModal(props: DayModalProps): JSX.Element {
   const title = getDescriptiveWeekday(props.date);
 
+  enableBodyScroll(false);
+
   // Click handlers
   const onAddEvent: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
@@ -32,6 +34,7 @@ function dayModal(props: DayModalProps): JSX.Element {
 
   const onClose: React.MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
+    enableBodyScroll(true);
     props.close();
   };
 
