@@ -164,12 +164,15 @@ function eventModal(props: EventProps): JSX.Element {
             </div>
           </div>
           <div className={styles.container}>
-            <div className={styles.label}>From:</div>
-            <input type="text" className={getValidatedStyle(from)} value={from.value} onChange={fromChange} placeholder={getHumanReadableDate(props.event.from)}/>
-            <div className={styles.label}>To:</div>
-            <input type="text" className={getValidatedStyle(to)} value={to.value} onChange={toChange} placeholder={getHumanReadableDate(props.event.to)}/>
-            <div className={styles.label}>Color:</div>
-            <input type="text" value={color} onChange={colorChange} placeholder="#000000 format color"/>
+            <label className={styles.label}>From:
+              <input type="text" className={getValidatedStyle(from)} value={from.value} onChange={fromChange} placeholder={getHumanReadableDate(props.event.from)}/>
+            </label>
+            <label className={styles.label}>To:
+              <input type="text" className={getValidatedStyle(to)} value={to.value} onChange={toChange} placeholder={getHumanReadableDate(props.event.to)}/>
+            </label>
+            <label className={styles.label}>Color:
+              <input type="text" value={color} onChange={colorChange} placeholder="#000000 format color"/>
+            </label>
           </div>
         </>
       </Modal>
