@@ -17,8 +17,6 @@
   max-width: 800px;
   flex-grow: 1;
   margin: auto;
-
-  overflow-y: scroll;
 }
 
 .modal {
