@@ -148,10 +148,10 @@ function eventModal(props: EventProps): JSX.Element {
       <Modal>
         <>
           <div className={styles.header} style={{color: getTextColor(color), backgroundColor: color}}>
-            <div className={styles.name}>
+            <div className={styles.title}>
               <input type="text" className={getValidatedStyle(name)} value={name.value} onChange={nameChange} placeholder="Event name"/>
             </div>
-            <div>
+            <div className={styles.controls}>
               <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onSave}>Save</button>
               <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onCancel}>Cancel</button>
             </div>
@@ -173,8 +173,8 @@ function eventModal(props: EventProps): JSX.Element {
       <Modal>
         <>
           <div className={styles.header} style={{color: getTextColor(color), backgroundColor: color}}>
-            <div className={styles.name}>{name.value}<br/><small>{props.event.uuid}</small></div>
-            <div>
+            <div className={styles.title}>{name.value}<br/><small>{props.event.uuid}</small></div>
+            <div className={styles.controls}>
               <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onRemove}>Delete</button>
               <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onEdit}>Edit</button>
               <button className={styles.headerButton} style={{color: color, backgroundColor: getTextColor(color)}} onClick={onClose}>&times;</button>

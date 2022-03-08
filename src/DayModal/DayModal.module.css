@@ -16,6 +16,10 @@
   color: white;
 }
 
+.controls {
+  text-align: right;
+}
+
 .headerButton {
   color: grey;
   background-color: white;
