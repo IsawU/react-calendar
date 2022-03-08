@@ -1,23 +1,29 @@
 .backdrop {
-  display: flex;
   position: fixed;
   top: 0px;
-  bottom: 0px;
   left: 0px;
-  right: 0px;
+  width: 100vw;
+  height: 100vh;
   z-index: 9999;
+  display: flex;
 
   align-items: center;
-  justify-content: center;
+  overflow-y: scroll;
 
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-.modal {
-  margin: 12px;
-  max-width: 100%;
+.contentStrip {
+  max-width: 800px;
+  flex-grow: 1;
+  margin: auto;
 
+  overflow-y: scroll;
+}
+
+.modal {
   overflow: hidden;
+  margin: 12px;
 
   border-radius: 12px;
   background-color: white;
