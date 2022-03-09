@@ -19,7 +19,7 @@ export function getLongYear(date: Date): string {
 }
 
 export function getHumanReadableDate(date: Date): string {
-  return date.toLocaleDateString(navigator.language, {  year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false });
+  return date.toLocaleDateString('en-US', {  year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false });
 }
 
 export function isSameDay(lhs: Date, rhs: Date): boolean {
