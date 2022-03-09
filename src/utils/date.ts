@@ -44,3 +44,15 @@ export function getTextRelative(today: Date, other: Date): string {
     return other.toLocaleDateString(navigator.language);
   }
 }
+
+export function sortCompare(lhs: Date, rhs: Date) {
+  if (lhs < rhs) {
+    return -1;
+  }
+  else if (lhs > rhs) {
+    return 1;
+  }
+  else {
+    return 0;
+  }
+}
