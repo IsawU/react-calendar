@@ -13,7 +13,7 @@ export type EventProps = {
   close: () => void;
 };
 
-// TODO: Add a better date picker because DST breaks things.
+// TODO: Add a better date picker for better UX.
 export default function EventModal(props: { data: EventProps | undefined }): JSX.Element {
   return props.data !== undefined ? eventModal(props.data) : <></>;
 }
