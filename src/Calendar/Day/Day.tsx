@@ -1,7 +1,7 @@
 import styles from './Day.module.css';
 import eventStyles from './EventView/EventView.module.css';
 import { Event } from '../../utils/event';
-import { getShortWeekday, isSameDay, isDayInRange } from '../../utils/date';
+import { getShortWeekday, isSameDay, isDayInRange, sortCompare } from '../../utils/date';
 import EventView from './EventView';
 
 export type DayProps = {
@@ -27,7 +27,8 @@ export default function Day(props: DayProps): JSX.Element {
   };
 
   // Events
-  const todayEvents: Event[] | undefined = props.events?.filter(event => isDayInRange(props.date, event.from, event.to));
+  const todayEvents: Event[] | undefined = props.events?.filter((event: Event) => isDayInRange(props.date, event.from, event.to))
+                                                        .sort((a: Event, b: Event) => { return sortCompare(a.from, b.from); });
   const eventCount: number = todayEvents !== undefined ? todayEvents.length : 0;
   const events: JSX.Element[] = [];
   for (let event = 0; event < 5; ++event) {
