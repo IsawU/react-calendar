@@ -18,8 +18,10 @@ export function getLongYear(date: Date): string {
   return date.toLocaleDateString(navigator.language, { year: 'numeric' });
 }
 
-export function getHumanReadableDate(date: Date): string {
-  return date.toLocaleDateString('en-US', {  year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false });
+export function getInputDatetimelocalDate(date: Date): string {
+  const adjusted_date = new Date(date.getTime())
+  adjusted_date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return adjusted_date.toISOString().slice(0,16);
 }
 
 export function isSameDay(lhs: Date, rhs: Date): boolean {

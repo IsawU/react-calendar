@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Modal, { enableBodyScroll } from '../Modal';
 import styles from './EventModal.module.css';
 import { Event, getTextColor, getDefaultEventColor } from '../utils/event';
-import { getHumanReadableDate } from '../utils/date';
+import { getInputDatetimelocalDate } from '../utils/date';
 import { Validated, validated, getValidatedStyle } from '../utils/validate';
 
 export type EventProps = {
@@ -24,11 +24,14 @@ function eventModal(props: EventProps): JSX.Element {
 
   const [editing, setEditing] = useState<boolean>(newEvent);
 
-  const initialDateValidity = checkDate(getHumanReadableDate(props.event.from), getHumanReadableDate(props.event.to));
+  const convertedFrom = getInputDatetimelocalDate(props.event.from);
+  const convertedTo = getInputDatetimelocalDate(props.event.to);
+
+  const initialDateValidity = checkDate(convertedFrom, convertedTo);
 
   const [name, setName] = useState<Validated<string>>(validated(props.event.name, checkName(props.event.name)));
-  const [from, setFrom] = useState<Validated<string>>(validated(getHumanReadableDate(props.event.from), initialDateValidity.from));
-  const [to, setTo] = useState<Validated<string>>(validated(getHumanReadableDate(props.event.to), initialDateValidity.to));
+  const [from, setFrom] = useState<Validated<string>>(validated(convertedFrom, initialDateValidity.from));
+  const [to, setTo] = useState<Validated<string>>(validated(convertedTo, initialDateValidity.to));
   const [color, setColor] = useState<string>(ownColor);
 
   enableBodyScroll(false);
@@ -100,9 +103,9 @@ function eventModal(props: EventProps): JSX.Element {
       }
       else {
         setName(validated(props.event.name, true));
-        setFrom(validated(getHumanReadableDate(props.event.from), true));
-        setTo(validated(getHumanReadableDate(props.event.to), true));
-        setColor(ownColor)
+        setFrom(validated(getInputDatetimelocalDate(props.event.from), true));
+        setTo(validated(getInputDatetimelocalDate(props.event.to), true));
+        setColor(ownColor);
         setEditing(false);
       }
     }
@@ -165,13 +168,13 @@ function eventModal(props: EventProps): JSX.Element {
           </div>
           <div className={styles.container}>
             <label className={styles.label}>From:
-              <input type="text" className={getValidatedStyle(from)} value={from.value} onChange={fromChange} placeholder={getHumanReadableDate(props.event.from)}/>
+              <input type="datetime-local" className={getValidatedStyle(from)} value={from.value} onChange={fromChange}/>
             </label>
             <label className={styles.label}>To:
-              <input type="text" className={getValidatedStyle(to)} value={to.value} onChange={toChange} placeholder={getHumanReadableDate(props.event.to)}/>
+              <input type="datetime-local" className={getValidatedStyle(to)} value={to.value} onChange={toChange}/>
             </label>
-            <label className={styles.label}>Color:
-              <input type="text" value={color} onChange={colorChange} placeholder="#000000 format color"/>
+            <label className={styles.label}>Color:<br/>
+              <input type="color" value={color} onChange={colorChange} style={{width: '3em', height: '3em', padding: '4px'}}/>
             </label>
           </div>
         </>
